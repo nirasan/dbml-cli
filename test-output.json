@@ -1,0 +1,362 @@
+{
+  "name": null,
+  "note": null,
+  "schemas": [
+    {
+      "name": "public",
+      "note": "Default Public Schema",
+      "tables": [
+        {
+          "name": "users",
+          "alias": null,
+          "note": null,
+          "headerColor": null,
+          "fields": [
+            {
+              "name": "id",
+              "type": {
+                "type_name": "INT",
+                "args": null,
+                "schemaName": null
+              },
+              "pk": true,
+              "unique": false,
+              "not_null": false,
+              "increment": false,
+              "note": null,
+              "dbdefault": null
+            },
+            {
+              "name": "username",
+              "type": {
+                "type_name": "VARCHAR(50)",
+                "args": null,
+                "schemaName": null
+              },
+              "pk": false,
+              "unique": true,
+              "not_null": true,
+              "increment": false,
+              "note": null,
+              "dbdefault": null
+            },
+            {
+              "name": "email",
+              "type": {
+                "type_name": "VARCHAR(255)",
+                "args": null,
+                "schemaName": null
+              },
+              "pk": false,
+              "unique": true,
+              "not_null": true,
+              "increment": false,
+              "note": null,
+              "dbdefault": null
+            },
+            {
+              "name": "created_at",
+              "type": {
+                "type_name": "TIMESTAMP",
+                "args": null,
+                "schemaName": null
+              },
+              "pk": false,
+              "unique": false,
+              "not_null": false,
+              "increment": false,
+              "note": null,
+              "dbdefault": {
+                "type": "expression",
+                "value": "CURRENT_TIMESTAMP"
+              }
+            }
+          ],
+          "indexes": []
+        },
+        {
+          "name": "posts",
+          "alias": null,
+          "note": null,
+          "headerColor": null,
+          "fields": [
+            {
+              "name": "id",
+              "type": {
+                "type_name": "INT",
+                "args": null,
+                "schemaName": null
+              },
+              "pk": true,
+              "unique": false,
+              "not_null": false,
+              "increment": false,
+              "note": null,
+              "dbdefault": null
+            },
+            {
+              "name": "user_id",
+              "type": {
+                "type_name": "INT",
+                "args": null,
+                "schemaName": null
+              },
+              "pk": false,
+              "unique": false,
+              "not_null": true,
+              "increment": false,
+              "note": null,
+              "dbdefault": null
+            },
+            {
+              "name": "title",
+              "type": {
+                "type_name": "VARCHAR(200)",
+                "args": null,
+                "schemaName": null
+              },
+              "pk": false,
+              "unique": false,
+              "not_null": true,
+              "increment": false,
+              "note": null,
+              "dbdefault": null
+            },
+            {
+              "name": "content",
+              "type": {
+                "type_name": "TEXT",
+                "args": null,
+                "schemaName": null
+              },
+              "pk": false,
+              "unique": false,
+              "not_null": false,
+              "increment": false,
+              "note": null,
+              "dbdefault": null
+            },
+            {
+              "name": "published",
+              "type": {
+                "type_name": "BOOLEAN",
+                "args": null,
+                "schemaName": null
+              },
+              "pk": false,
+              "unique": false,
+              "not_null": false,
+              "increment": false,
+              "note": null,
+              "dbdefault": {
+                "type": "boolean",
+                "value": "FALSE"
+              }
+            },
+            {
+              "name": "created_at",
+              "type": {
+                "type_name": "TIMESTAMP",
+                "args": null,
+                "schemaName": null
+              },
+              "pk": false,
+              "unique": false,
+              "not_null": false,
+              "increment": false,
+              "note": null,
+              "dbdefault": {
+                "type": "expression",
+                "value": "CURRENT_TIMESTAMP"
+              }
+            }
+          ],
+          "indexes": [
+            {
+              "name": "idx_posts_user_id",
+              "columns": [
+                {
+                  "value": "user_id",
+                  "type": "column"
+                }
+              ],
+              "unique": false,
+              "type": null,
+              "pk": false,
+              "note": null
+            }
+          ]
+        },
+        {
+          "name": "comments",
+          "alias": null,
+          "note": null,
+          "headerColor": null,
+          "fields": [
+            {
+              "name": "id",
+              "type": {
+                "type_name": "INT",
+                "args": null,
+                "schemaName": null
+              },
+              "pk": true,
+              "unique": false,
+              "not_null": false,
+              "increment": false,
+              "note": null,
+              "dbdefault": null
+            },
+            {
+              "name": "post_id",
+              "type": {
+                "type_name": "INT",
+                "args": null,
+                "schemaName": null
+              },
+              "pk": false,
+              "unique": false,
+              "not_null": true,
+              "increment": false,
+              "note": null,
+              "dbdefault": null
+            },
+            {
+              "name": "user_id",
+              "type": {
+                "type_name": "INT",
+                "args": null,
+                "schemaName": null
+              },
+              "pk": false,
+              "unique": false,
+              "not_null": true,
+              "increment": false,
+              "note": null,
+              "dbdefault": null
+            },
+            {
+              "name": "content",
+              "type": {
+                "type_name": "TEXT",
+                "args": null,
+                "schemaName": null
+              },
+              "pk": false,
+              "unique": false,
+              "not_null": true,
+              "increment": false,
+              "note": null,
+              "dbdefault": null
+            },
+            {
+              "name": "created_at",
+              "type": {
+                "type_name": "TIMESTAMP",
+                "args": null,
+                "schemaName": null
+              },
+              "pk": false,
+              "unique": false,
+              "not_null": false,
+              "increment": false,
+              "note": null,
+              "dbdefault": {
+                "type": "expression",
+                "value": "CURRENT_TIMESTAMP"
+              }
+            }
+          ],
+          "indexes": [
+            {
+              "name": "idx_comments_post_id",
+              "columns": [
+                {
+                  "value": "post_id",
+                  "type": "column"
+                }
+              ],
+              "unique": false,
+              "type": null,
+              "pk": false,
+              "note": null
+            }
+          ]
+        }
+      ],
+      "enums": [],
+      "refs": [
+        {
+          "name": null,
+          "endpoints": [
+            {
+              "tableName": "posts",
+              "schemaName": null,
+              "fieldNames": [
+                "user_id"
+              ],
+              "relation": "*"
+            },
+            {
+              "tableName": "users",
+              "schemaName": null,
+              "fieldNames": [
+                "id"
+              ],
+              "relation": "1"
+            }
+          ],
+          "onUpdate": null,
+          "onDelete": "CASCADE"
+        },
+        {
+          "name": null,
+          "endpoints": [
+            {
+              "tableName": "comments",
+              "schemaName": null,
+              "fieldNames": [
+                "post_id"
+              ],
+              "relation": "*"
+            },
+            {
+              "tableName": "posts",
+              "schemaName": null,
+              "fieldNames": [
+                "id"
+              ],
+              "relation": "1"
+            }
+          ],
+          "onUpdate": null,
+          "onDelete": "CASCADE"
+        },
+        {
+          "name": null,
+          "endpoints": [
+            {
+              "tableName": "comments",
+              "schemaName": null,
+              "fieldNames": [
+                "user_id"
+              ],
+              "relation": "*"
+            },
+            {
+              "tableName": "users",
+              "schemaName": null,
+              "fieldNames": [
+                "id"
+              ],
+              "relation": "1"
+            }
+          ],
+          "onUpdate": null,
+          "onDelete": "CASCADE"
+        }
+      ],
+      "tableGroups": []
+    }
+  ]
+}

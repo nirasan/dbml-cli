@@ -1,0 +1,37 @@
+{
+  "name": "dbml-cli",
+  "version": "0.1.0",
+  "description": "CLI tool to convert DDL to DBML JSON intermediate data using @dbml/core",
+  "main": "dist/index.js",
+  "type": "module",
+  "bin": {
+    "dbml-cli": "dist/index.js"
+  },
+  "scripts": {
+    "build": "node build.js",
+    "build:windows": "npm run build && node scripts/build-sea.js windows",
+    "build:linux": "npm run build && node scripts/build-sea.js linux",
+    "build:macos": "npm run build && node scripts/build-sea.js macos",
+    "dev": "node src/index.js",
+    "test": "node --test"
+  },
+  "keywords": [
+    "dbml",
+    "ddl",
+    "database",
+    "cli",
+    "converter"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@dbml/core": "^3.8.1"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.10",
+    "postject": "^1.0.0-alpha.6"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
