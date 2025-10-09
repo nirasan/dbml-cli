@@ -10,6 +10,16 @@ sea-prep.blob
 
 # Test files
 test-output/
+test-output.json
+*-output.json
+*-bench.json
+benchmark-output.json
+sea-test-output.json
+node-bench.json
+sea-bench.json
+perf-*.json
+bench*.json
+test-dbml.js
 
 # OS
 .DS_Store

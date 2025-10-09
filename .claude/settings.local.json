@@ -5,7 +5,9 @@
       "Bash(node test-dbml.js)",
       "Bash(node:*)",
       "Bash(npm install:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(npm run build:windows:*)",
+      "Bash(distdbml-cli.exe:*)"
     ],
     "deny": [],
     "ask": []

@@ -39,7 +39,8 @@ try {
 
   // 2. Copy Node.js binary
   console.log(`Step 2: Copying Node.js binary (${platformConfig.nodeBinary})...`);
-  const nodePath = execSync(`where ${platformConfig.nodeBinary}`, { encoding: 'utf-8' }).trim().split('\\n')[0];
+  const whereCommand = platform === 'windows' ? 'where' : 'which';
+  const nodePath = execSync(`${whereCommand} ${platformConfig.nodeBinary}`, { encoding: 'utf-8' }).trim().split(/\r?\n/)[0];
   const outputPath = path.join('dist', platformConfig.outputBinary);
 
   fs.copyFileSync(nodePath, outputPath);
