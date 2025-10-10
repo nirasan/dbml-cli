@@ -8,6 +8,37 @@ import { parseArgs, printHelp } from './cli-args.js';
 
 const VERSION = '0.1.0';
 
+/**
+ * Preprocess SQL to remove unsupported statements
+ */
+function preprocessSQL(sqlContent, skipUnsupported = true) {
+  if (!skipUnsupported) {
+    return sqlContent;
+  }
+
+  let processed = sqlContent;
+
+  // Remove PostgreSQL-style functions with $$ delimiters
+  processed = processed.replace(/CREATE\s+(?:OR\s+REPLACE\s+)?FUNCTION[\s\S]*?\$\$[\s\S]*?\$\$[\s\S]*?;/gi, '');
+
+  // Remove MySQL-style triggers (with BEGIN...END blocks)
+  processed = processed.replace(/CREATE\s+(?:OR\s+REPLACE\s+)?TRIGGER[\s\S]*?BEGIN[\s\S]*?END\s*;/gi, '');
+
+  // Remove simple triggers (without BEGIN...END)
+  processed = processed.replace(/CREATE\s+(?:OR\s+REPLACE\s+)?TRIGGER[\s\S]*?;/gi, '');
+
+  // Remove procedure calls
+  processed = processed.replace(/CALL\s+[\s\S]*?;/gi, '');
+
+  // Remove DROP statements for triggers and functions
+  processed = processed.replace(/DROP\s+(?:TRIGGER|FUNCTION)[\s\S]*?;/gi, '');
+
+  // Clean up multiple empty lines
+  processed = processed.replace(/\n\s*\n\s*\n/g, '\n\n');
+
+  return processed.trim();
+}
+
 async function main() {
   try {
     const args = parseArgs(process.argv.slice(2));
@@ -37,10 +68,39 @@ async function main() {
 
     const ddlContent = fs.readFileSync(inputPath, 'utf-8');
 
-    // DDL をパース
+    // 前処理: サポートされていないステートメントを削除
+    const processedSQL = preprocessSQL(ddlContent, true);
+
+    // DDL をパース（既存スクリプトと同じ2段階アプローチ）
     const dbType = args.dbType || 'mysql';
-    const parser = new Parser(dbType);
-    const database = parser.parse(ddlContent, dbType);
+
+    let rawDatabase;
+    try {
+      switch (dbType) {
+        case 'postgres':
+          rawDatabase = Parser.parsePostgresToJSONv2(processedSQL);
+          break;
+        case 'mysql':
+          rawDatabase = Parser.parseMySQLToJSONv2(processedSQL);
+          break;
+        case 'mssql':
+          rawDatabase = Parser.parseMSSQLToJSONv2(processedSQL);
+          break;
+        default:
+          throw new Error(`Unsupported database type: ${dbType}`);
+      }
+    } catch (parseError) {
+      console.error('Failed to parse SQL');
+      console.error('Error:', parseError.message);
+      console.error('SQL content length:', ddlContent.length, 'characters');
+      console.error('Database type:', dbType);
+      if (process.env.DEBUG) {
+        console.error('Stack trace:', parseError.stack);
+      }
+      process.exit(1);
+    }
+
+    const database = Parser.parseJSONToDatabase(rawDatabase);
 
     let output;
 
