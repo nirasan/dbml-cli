@@ -21,6 +21,9 @@ perf-*.json
 bench*.json
 test-dbml.js
 
+# Actual output (for testing)
+data/actual/
+
 # OS
 .DS_Store
 Thumbs.db

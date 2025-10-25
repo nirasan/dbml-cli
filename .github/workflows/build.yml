@@ -105,15 +105,41 @@ jobs:
     needs: [build-windows, build-linux, build-macos]
     if: startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Download all artifacts
         uses: actions/download-artifact@v4
+
+      - name: Prepare release files
+        run: |
+          mkdir -p release
+          # Windows
+          mv dbml-cli-windows/dbml-cli.exe release/dbml-cli-windows.exe
+          # Linux
+          mv dbml-cli-linux/dbml-cli release/dbml-cli-linux
+          # macOS
+          mv dbml-cli-macos/dbml-cli release/dbml-cli-macos
+
+          # Generate checksums
+          cd release
+          sha256sum dbml-cli-windows.exe > dbml-cli-windows.exe.sha256
+          sha256sum dbml-cli-linux > dbml-cli-linux.sha256
+          sha256sum dbml-cli-macos > dbml-cli-macos.sha256
+          sha256sum * | grep -v '\.sha256$' > checksums.txt
+          cd ..
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            dbml-cli-windows/dbml-cli.exe
-            dbml-cli-linux/dbml-cli
-            dbml-cli-macos/dbml-cli
+            release/dbml-cli-windows.exe
+            release/dbml-cli-windows.exe.sha256
+            release/dbml-cli-linux
+            release/dbml-cli-linux.sha256
+            release/dbml-cli-macos
+            release/dbml-cli-macos.sha256
+            release/checksums.txt
           generate_release_notes: true
+          draft: false
+          prerelease: false

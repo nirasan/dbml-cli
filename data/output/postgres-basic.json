@@ -1,0 +1,468 @@
+{
+  "schemas": [],
+  "tables": [
+    {
+      "name": "data_types_test",
+      "fields": [
+        {
+          "name": "id",
+          "type": {
+            "type_name": "SERIAL",
+            "schemaName": null
+          },
+          "increment": true,
+          "pk": true
+        },
+        {
+          "name": "bigint_col",
+          "type": {
+            "type_name": "BIGINT",
+            "schemaName": null
+          }
+        },
+        {
+          "name": "decimal_col",
+          "type": {
+            "type_name": "DECIMAL(10,2)",
+            "schemaName": null
+          }
+        },
+        {
+          "name": "float_col",
+          "type": {
+            "type_name": "REAL",
+            "schemaName": null
+          }
+        },
+        {
+          "name": "double_col",
+          "type": {
+            "type_name": "DOUBLEPRECISION",
+            "schemaName": null
+          }
+        },
+        {
+          "name": "varchar_col",
+          "type": {
+            "type_name": "VARCHAR(255)",
+            "schemaName": null
+          }
+        },
+        {
+          "name": "text_col",
+          "type": {
+            "type_name": "TEXT",
+            "schemaName": null
+          }
+        },
+        {
+          "name": "char_col",
+          "type": {
+            "type_name": "CHAR (10)",
+            "schemaName": null
+          }
+        },
+        {
+          "name": "date_col",
+          "type": {
+            "type_name": "DATE",
+            "schemaName": null
+          }
+        },
+        {
+          "name": "time_col",
+          "type": {
+            "type_name": "TIME",
+            "schemaName": null
+          }
+        },
+        {
+          "name": "datetime_col",
+          "type": {
+            "type_name": "TIMESTAMP",
+            "schemaName": null
+          }
+        },
+        {
+          "name": "timestamp_col",
+          "type": {
+            "type_name": "TIMESTAMP",
+            "schemaName": null
+          },
+          "dbdefault": {
+            "value": "CURRENT_TIMESTAMP",
+            "type": "expression"
+          }
+        },
+        {
+          "name": "boolean_col",
+          "type": {
+            "type_name": "BOOLEAN",
+            "schemaName": null
+          }
+        },
+        {
+          "name": "json_col",
+          "type": {
+            "type_name": "JSON",
+            "schemaName": null
+          }
+        },
+        {
+          "name": "jsonb_col",
+          "type": {
+            "type_name": "JSONB",
+            "schemaName": null
+          }
+        },
+        {
+          "name": "uuid_col",
+          "type": {
+            "type_name": "UUID",
+            "schemaName": null
+          }
+        },
+        {
+          "name": "array_col",
+          "type": {
+            "type_name": "INTEGER[]",
+            "schemaName": null
+          }
+        }
+      ],
+      "indexes": []
+    },
+    {
+      "name": "single_pk_test",
+      "fields": [
+        {
+          "name": "id",
+          "type": {
+            "type_name": "SERIAL",
+            "schemaName": null
+          },
+          "increment": true,
+          "pk": true
+        },
+        {
+          "name": "name",
+          "type": {
+            "type_name": "VARCHAR(100)",
+            "schemaName": null
+          },
+          "not_null": true
+        }
+      ],
+      "indexes": []
+    },
+    {
+      "name": "composite_pk_test",
+      "fields": [
+        {
+          "name": "category_id",
+          "type": {
+            "type_name": "INTEGER",
+            "schemaName": null
+          }
+        },
+        {
+          "name": "item_id",
+          "type": {
+            "type_name": "INTEGER",
+            "schemaName": null
+          }
+        },
+        {
+          "name": "name",
+          "type": {
+            "type_name": "VARCHAR(100)",
+            "schemaName": null
+          }
+        }
+      ],
+      "indexes": [
+        {
+          "pk": true,
+          "columns": [
+            {
+              "value": "category_id",
+              "type": "column"
+            },
+            {
+              "value": "item_id",
+              "type": "column"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "unique_test",
+      "fields": [
+        {
+          "name": "id",
+          "type": {
+            "type_name": "SERIAL",
+            "schemaName": null
+          },
+          "increment": true,
+          "pk": true
+        },
+        {
+          "name": "email",
+          "type": {
+            "type_name": "VARCHAR(255)",
+            "schemaName": null
+          },
+          "unique": true
+        },
+        {
+          "name": "username",
+          "type": {
+            "type_name": "VARCHAR(50)",
+            "schemaName": null
+          },
+          "unique": true
+        },
+        {
+          "name": "first_name",
+          "type": {
+            "type_name": "VARCHAR(50)",
+            "schemaName": null
+          }
+        },
+        {
+          "name": "last_name",
+          "type": {
+            "type_name": "VARCHAR(50)",
+            "schemaName": null
+          }
+        }
+      ],
+      "indexes": [
+        {
+          "name": "unique_name",
+          "unique": true,
+          "columns": [
+            {
+              "value": "first_name",
+              "type": "column"
+            },
+            {
+              "value": "last_name",
+              "type": "column"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "categories",
+      "fields": [
+        {
+          "name": "id",
+          "type": {
+            "type_name": "SERIAL",
+            "schemaName": null
+          },
+          "increment": true,
+          "pk": true
+        },
+        {
+          "name": "name",
+          "type": {
+            "type_name": "VARCHAR(100)",
+            "schemaName": null
+          },
+          "not_null": true,
+          "unique": true
+        }
+      ],
+      "indexes": []
+    },
+    {
+      "name": "items",
+      "fields": [
+        {
+          "name": "id",
+          "type": {
+            "type_name": "SERIAL",
+            "schemaName": null
+          },
+          "increment": true,
+          "pk": true
+        },
+        {
+          "name": "name",
+          "type": {
+            "type_name": "VARCHAR(100)",
+            "schemaName": null
+          },
+          "not_null": true
+        },
+        {
+          "name": "category_id",
+          "type": {
+            "type_name": "INTEGER",
+            "schemaName": null
+          }
+        },
+        {
+          "name": "price",
+          "type": {
+            "type_name": "DECIMAL(10,2)",
+            "schemaName": null
+          },
+          "dbdefault": {
+            "value": "0.00",
+            "type": "number"
+          }
+        }
+      ],
+      "indexes": []
+    },
+    {
+      "name": "check_test",
+      "fields": [
+        {
+          "name": "id",
+          "type": {
+            "type_name": "SERIAL",
+            "schemaName": null
+          },
+          "increment": true,
+          "pk": true
+        },
+        {
+          "name": "age",
+          "type": {
+            "type_name": "INTEGER",
+            "schemaName": null
+          }
+        },
+        {
+          "name": "status",
+          "type": {
+            "type_name": "status_enum",
+            "schemaName": null
+          },
+          "dbdefault": {
+            "value": "pending",
+            "type": "string"
+          }
+        },
+        {
+          "name": "score",
+          "type": {
+            "type_name": "DECIMAL(5,2)",
+            "schemaName": null
+          }
+        }
+      ],
+      "indexes": []
+    },
+    {
+      "name": "index_test",
+      "fields": [
+        {
+          "name": "id",
+          "type": {
+            "type_name": "SERIAL",
+            "schemaName": null
+          },
+          "increment": true,
+          "pk": true
+        },
+        {
+          "name": "name",
+          "type": {
+            "type_name": "VARCHAR(100)",
+            "schemaName": null
+          }
+        },
+        {
+          "name": "email",
+          "type": {
+            "type_name": "VARCHAR(255)",
+            "schemaName": null
+          }
+        },
+        {
+          "name": "created_at",
+          "type": {
+            "type_name": "TIMESTAMP",
+            "schemaName": null
+          },
+          "dbdefault": {
+            "value": "CURRENT_TIMESTAMP",
+            "type": "expression"
+          }
+        }
+      ],
+      "indexes": [
+        {
+          "name": "idx_name",
+          "unique": false,
+          "columns": [
+            {
+              "value": "name",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "idx_email",
+          "unique": true,
+          "columns": [
+            {
+              "value": "email",
+              "type": "string"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "refs": [
+    {
+      "endpoints": [
+        {
+          "tableName": "items",
+          "fieldNames": [
+            "category_id"
+          ],
+          "relation": "*"
+        },
+        {
+          "tableName": "categories",
+          "fieldNames": [
+            "id"
+          ],
+          "relation": "1"
+        }
+      ],
+      "onDelete": "CASCADE",
+      "onUpdate": null
+    }
+  ],
+  "enums": [
+    {
+      "name": "status_enum",
+      "values": [
+        {
+          "name": "active"
+        },
+        {
+          "name": "inactive"
+        },
+        {
+          "name": "pending"
+        }
+      ]
+    }
+  ],
+  "tableGroups": [],
+  "aliases": [],
+  "project": {},
+  "records": []
+}

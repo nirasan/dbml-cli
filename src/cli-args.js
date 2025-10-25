@@ -3,10 +3,11 @@ export function parseArgs(argv) {
     input: null,
     output: null,
     format: 'json', // 'json' or 'dbml'
-    dbType: 'mysql', // 'mysql', 'postgres', 'mssql', etc.
+    dbType: null, // 'mysql', 'postgres', 'mssql', etc. (required)
     pretty: true,
     help: false,
-    version: false
+    version: false,
+    stdin: false
   };
 
   for (let i = 0; i < argv.length; i++) {
@@ -22,6 +23,8 @@ export function parseArgs(argv) {
       args.format = argv[++i];
     } else if (arg === '-t' || arg === '--db-type') {
       args.dbType = argv[++i];
+    } else if (arg === '--stdin') {
+      args.stdin = true;
     } else if (arg === '--no-pretty') {
       args.pretty = false;
     } else if (!arg.startsWith('-')) {
@@ -39,27 +42,29 @@ export function printHelp() {
 dbml-cli - Convert DDL to DBML JSON intermediate data
 
 Usage:
-  dbml-cli <input-file> [options]
+  dbml-cli <input-file> -t <db-type> [options]
+  dbml-cli --stdin -t <db-type> [options]
 
 Options:
+  -t, --db-type <type>    Database type: mysql, postgres, etc. (required)
   -o, --output <file>     Output file path (default: stdout)
+  --stdin                 Read DDL from standard input
   -f, --format <format>   Output format: 'json' or 'dbml' (default: json)
-  -t, --db-type <type>    Database type: mysql, postgres, mssql, etc. (default: mysql)
   --no-pretty             Disable pretty printing for JSON output
   -h, --help              Show this help message
   -v, --version           Show version number
 
 Examples:
-  # Convert DDL to JSON (stdout)
-  dbml-cli schema.sql
+  # Convert MySQL DDL to JSON (stdout)
+  dbml-cli schema.sql -t mysql
 
-  # Convert DDL to JSON file
-  dbml-cli schema.sql -o output.json
+  # Convert MySQL DDL to JSON file
+  dbml-cli schema.sql -t mysql -o output.json
 
-  # Convert DDL to DBML text format
-  dbml-cli schema.sql -o output.dbml -f dbml
+  # Convert PostgreSQL DDL from stdin
+  cat schema.sql | dbml-cli --stdin -t postgres
 
-  # Convert PostgreSQL DDL
+  # Convert PostgreSQL DDL to file
   dbml-cli schema.sql -t postgres -o output.json
 `);
 }

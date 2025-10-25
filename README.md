@@ -18,14 +18,53 @@ DDL (Data Definition Language) から DBML (Database Markup Language) の JSON �
 
 [Releases](https://github.com/YOUR_USERNAME/dbml-cli/releases) から、お使いのプラットフォーム向けのバイナリをダウンロードしてください。
 
+各リリースには以下のファイルが含まれています：
+- `dbml-cli-windows.exe` - Windows用バイナリ
+- `dbml-cli-linux` - Linux用バイナリ
+- `dbml-cli-macos` - macOS用バイナリ
+- `checksums.txt` - すべてのファイルのSHA256チェックサム
+
 #### Windows
 ```bash
-# ダウンロードしたバイナリを PATH の通ったディレクトリに配置
-dbml-cli.exe schema.sql -o output.json
+# PowerShellでダウンロード（例：v0.1.0の場合）
+Invoke-WebRequest -Uri "https://github.com/YOUR_USERNAME/dbml-cli/releases/download/v0.1.0/dbml-cli-windows.exe" -OutFile "dbml-cli.exe"
+
+# チェックサムを検証（オプション）
+Invoke-WebRequest -Uri "https://github.com/YOUR_USERNAME/dbml-cli/releases/download/v0.1.0/dbml-cli-windows.exe.sha256" -OutFile "dbml-cli.exe.sha256"
+Get-FileHash dbml-cli.exe -Algorithm SHA256
+
+# 使用
+.\dbml-cli.exe schema.sql -o output.json
 ```
 
-#### Linux / macOS
+#### Linux
 ```bash
+# ダウンロード（例：v0.1.0の場合）
+wget https://github.com/YOUR_USERNAME/dbml-cli/releases/download/v0.1.0/dbml-cli-linux
+
+# チェックサムを検証（オプション）
+wget https://github.com/YOUR_USERNAME/dbml-cli/releases/download/v0.1.0/dbml-cli-linux.sha256
+sha256sum -c dbml-cli-linux.sha256
+
+# 実行権限を付与
+chmod +x dbml-cli-linux
+
+# PATH の通ったディレクトリに移動（例：/usr/local/bin）
+sudo mv dbml-cli-linux /usr/local/bin/dbml-cli
+
+# 使用
+dbml-cli schema.sql -o output.json
+```
+
+#### macOS
+```bash
+# ダウンロード（例：v0.1.0の場合）
+curl -L -o dbml-cli https://github.com/YOUR_USERNAME/dbml-cli/releases/download/v0.1.0/dbml-cli-macos
+
+# チェックサムを検証（オプション）
+curl -L -o dbml-cli.sha256 https://github.com/YOUR_USERNAME/dbml-cli/releases/download/v0.1.0/dbml-cli-macos.sha256
+shasum -a 256 -c dbml-cli.sha256
+
 # 実行権限を付与
 chmod +x dbml-cli
 
@@ -209,13 +248,33 @@ npm run build:macos
 
 ### リリースの作成
 
+新しいバージョンをリリースする場合は、以下の手順でタグを作成してプッシュします：
+
 ```bash
-# バージョンタグを作成
+# package.json のバージョンを更新
+npm version patch  # または minor、major
+
+# タグを作成（例：v0.1.0）
 git tag v0.1.0
+
+# タグをリモートにプッシュ
 git push origin v0.1.0
 
-# GitHub Actions が自動的にビルドしてリリースを作成
+# GitHub Actions が自動的に以下を実行：
+# 1. Windows、Linux、macOS 向けにビルド
+# 2. 各バイナリの SHA256 チェックサムを生成
+# 3. GitHub Releases にすべてのファイルをアップロード
+# 4. リリースノートを自動生成
 ```
+
+リリースが作成されると、以下のファイルが GitHub Releases ページに公開されます：
+- `dbml-cli-windows.exe` - Windows用実行ファイル
+- `dbml-cli-windows.exe.sha256` - Windowsバイナリのチェックサム
+- `dbml-cli-linux` - Linux用実行ファイル
+- `dbml-cli-linux.sha256` - Linuxバイナリのチェックサム
+- `dbml-cli-macos` - macOS用実行ファイル
+- `dbml-cli-macos.sha256` - macOSバイナリのチェックサム
+- `checksums.txt` - 全バイナリのチェックサム一覧
 
 ## 技術スタック
 
