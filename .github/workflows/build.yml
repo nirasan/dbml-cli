@@ -108,6 +108,11 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Download all artifacts
         uses: actions/download-artifact@v4
 
@@ -131,6 +136,8 @@ jobs:
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           files: |
             release/dbml-cli-windows.exe
@@ -143,3 +150,19 @@ jobs:
           generate_release_notes: true
           draft: false
           prerelease: false
+          body: |
+            ## ダウンロード
+
+            お使いのプラットフォームに応じて、以下のファイルをダウンロードしてください：
+
+            - **Windows**: `dbml-cli-windows.exe`
+            - **Linux**: `dbml-cli-linux`
+            - **macOS**: `dbml-cli-macos`
+
+            各ファイルには対応する `.sha256` チェックサムファイルが含まれています。
+
+            ## インストール方法
+
+            詳細なインストール手順については、[README](https://github.com/${{ github.repository }}/blob/main/README.md#インストール) をご覧ください。
+
+            ## 変更履歴
